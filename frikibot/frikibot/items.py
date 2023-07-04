@@ -6,7 +6,9 @@
 import scrapy
 
 
-class FrikibotItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class BoardGameItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    stock = scrapy.Field()
+    url = scrapy.Field()
+    language =scrapy.Field()

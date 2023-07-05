@@ -11,4 +11,5 @@ class BoardGameItem(scrapy.Item):
     price = scrapy.Field()
     stock = scrapy.Field()
     url = scrapy.Field()
-    language =scrapy.Field()
+    scraped_at = scrapy.Field()
+    #language = scrapy.Field()

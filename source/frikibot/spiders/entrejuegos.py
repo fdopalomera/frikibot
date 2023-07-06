@@ -1,5 +1,5 @@
 import scrapy
-import datetime
+from datetime import datetime
 from source.frikibot.items import BoardGameItem
 from source.frikibot.itemsloaders import BoardGameLoader
 
@@ -16,7 +16,7 @@ class EntreJuegosSpider(scrapy.Spider):
         xpath_selector = "//a[@class='thumbnail product-thumbnail']/@href"
         products_url = response.xpath(xpath_selector).getall()
         meta = {
-            "scraping_started_at": datetime.datetime.now()
+            "scraping_started_at": datetime.now()
         }
         for url in products_url:
             yield scrapy.Request(url=url, callback=self.parse_product_data, meta=meta)
@@ -29,5 +29,5 @@ class EntreJuegosSpider(scrapy.Spider):
         loader.add_xpath("stock", "//div[@class='product-quantities']/span/@data-stock")
         loader.add_value("url", response.url)
         loader.add_value("scraped_at", response.meta["scraping_started_at"])
-        loader.add_value("store", self.name)
+        loader.add_value("store_name", self.name)
         yield loader

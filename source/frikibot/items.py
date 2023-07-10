@@ -7,9 +7,9 @@ import scrapy
 
 
 class BoardGameItem(scrapy.Item):
-    name = scrapy.Field()
-    price = scrapy.Field()
-    stock = scrapy.Field()
-    url = scrapy.Field()
+    product_name = scrapy.Field()
+    product_price = scrapy.Field()
+    product_stock = scrapy.Field()
+    product_url = scrapy.Field()
     scraped_at = scrapy.Field()
     #language = scrapy.Field()

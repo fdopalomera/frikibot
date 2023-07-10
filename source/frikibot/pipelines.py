@@ -48,7 +48,7 @@ class ExportToMySQLPipeline:
                 (scraped_at, product_name, product_price, product_stock, product_url, product_id, product_condition)
                 VALUES 
                 ({item['scraped_at']}, {item['product_name']}, {item['product_price']}, {item['product_stock']}, 
-                    {item['product_url']}, {item['product_id']}, {item['product_condition']})
+                    {item['product_url']}, {item['product_id']})
                 """)  # TODO: Refactor with iteration through modeled items
             self.conn.commit()
         except mysql.connector.Error as e:

@@ -10,7 +10,7 @@ def remove_price_sign(text):
     return text.replace('$', '')
 
 
-class BoardGameLoader(ItemLoader):
+class EntrejuegosLoader(ItemLoader):
 
     default_output_processor = TakeFirst()
-    price_in = MapCompose(remove_price_sign, remove_thousands_separator)
+    #price_in = MapCompose(remove_price_sign, remove_thousands_separator)

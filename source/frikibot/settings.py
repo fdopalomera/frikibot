@@ -7,6 +7,9 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BOT_NAME = "frikibot"
 
@@ -64,9 +67,9 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "frikibot.pipelines.FrikibotPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    "frikibot.pipelines.ExportToMySQLPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -95,8 +98,8 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # MySQL
-MYSQL_DATABASE_HOST = os.environ.get('MYSQL_DATABASE_HOST')
-MYSQL_USER = os.environ.get('MYSQL_USER')
-MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
-MYSQL_DATABASE = os.environ.get('MYSQL_DATABASE')
-MYSQL_TABLE = os.environ.get('MYSQL_TABLE')
+MYSQL_DATABASE_HOST = os.environ['MYSQL_DATABASE_HOST']
+MYSQL_USER = os.environ['MYSQL_USER']
+MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
+MYSQL_DATABASE = os.environ['MYSQL_DATABASE']
+MYSQL_TABLE = os.environ['MYSQL_TABLE']

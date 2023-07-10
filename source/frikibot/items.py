@@ -6,10 +6,11 @@
 import scrapy
 
 
-class BoardGameItem(scrapy.Item):
+class EntrejuegosItem(scrapy.Item):
     product_name = scrapy.Field()
     product_price = scrapy.Field()
     product_stock = scrapy.Field()
     product_url = scrapy.Field()
     scraped_at = scrapy.Field()
-    #language = scrapy.Field()
+    product_id = scrapy.Field()
+

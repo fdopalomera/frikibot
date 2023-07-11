@@ -22,9 +22,9 @@ class EntreJuegosSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_product_data, meta=meta)
 
         # Continue with the next page
-        #next_page = response.xpath("//a[@class='next js-search-link']/@href").get()
-        #if next_page is not None:
-            #yield response.follow(next_page, callback=self.discover_product_urls)
+        next_page = response.xpath("//a[@class='next js-search-link']/@href").get()
+        if next_page is not None:
+            yield response.follow(next_page, callback=self.discover_product_urls)
 
     def parse_product_data(self, response):
 

@@ -1,7 +1,7 @@
 import scrapy
 import pendulum
-from frikibot.items import EntrejuegosItem
-from frikibot.itemsloaders import EntrejuegosLoader
+from frikibot.items import BoardGameItem
+from frikibot.itemsloaders import BoardGameLoader
 
 
 class EntreJuegosSpider(scrapy.Spider):
@@ -28,12 +28,12 @@ class EntreJuegosSpider(scrapy.Spider):
 
     def parse_product_data(self, response):
 
-        loader = EntrejuegosLoader(item=EntrejuegosItem(), response=response)
+        loader = BoardGameLoader(item=BoardGameItem(), response=response)
         loader.add_xpath("product_name", "//div[@class='col-md-6']/h1/text()")
         loader.add_xpath("product_price", "//span[@class='current-price-value']/@content")
         loader.add_value("product_url", response.url)
         loader.add_value("scraped_at", response.meta["scraping_started_at"])
-        loader.add_xpath("product_id", "//div[@class='product-reference']/span/text()")
+        loader.add_xpath("product_reference", "//div[@class='product-reference']/span/text()")
 
         qty_xpath = "//div[@class='product-quantities']/span/@data-stock"
         if not response.xpath(qty_xpath):

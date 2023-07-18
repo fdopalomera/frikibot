@@ -10,12 +10,13 @@ from scrapy.exceptions import DropItem
 
 
 class ExportToMySQLPipeline:
-    def __init__(self, host, user, password, database, table):
+    def __init__(self, host, user, password, database):
         self.host = host
         self.user = user
         self.password = password
         self.database = database
-        self.table = table
+        self.conn = None
+        self.cursor = None
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -24,8 +25,7 @@ class ExportToMySQLPipeline:
             host=settings.get('MYSQL_DATABASE_HOST'),
             user=settings.get('MYSQL_USER'),
             password=settings.get('MYSQL_PASSWORD'),
-            database=settings.get('MYSQL_DATABASE'),
-            table=settings.get('MYSQL_TABLE')
+            database=settings.get('MYSQL_DATABASE')
         )
 
     def open_spider(self, spider):
@@ -42,14 +42,19 @@ class ExportToMySQLPipeline:
         self.conn.close()
 
     def process_item(self, item, spider):
+        table_name = f"staging_{spider.name}_catalog"
+        columns = ", ".join([key for key in item.keys()])
+        values = "'" + "', '".join([str(value) for value in item.values()]) + "'"
+
+        insert_query = f"""
+        INSERT INTO {table_name}
+        ({columns})
+        VALUES
+        ({values})
+        """
+
         try:
-            self.cursor.execute(f"""
-                INSERT INTO {self.table}
-                (scraped_at, product_name, product_price, product_stock, product_url, product_id)
-                VALUES 
-                ('{item['scraped_at']}', '{item['product_name']}', {item['product_price']}, {item['product_stock']}, 
-                 '{item['product_url']}', '{item['product_id']}')
-                """)  # TODO: Refactor with iteration through modeled items
+            self.cursor.execute(insert_query)
             self.conn.commit()
         except mysql.connector.Error as e:
             raise DropItem(f"Error inserting item: {e}")

@@ -2,15 +2,15 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
-
 import scrapy
 
 
-class EntrejuegosItem(scrapy.Item):
+class BoardGameItem(scrapy.Item):
     product_name = scrapy.Field()
     product_price = scrapy.Field()
     product_stock = scrapy.Field()
     product_url = scrapy.Field()
     scraped_at = scrapy.Field()
-    product_id = scrapy.Field()
-
+    product_reference = scrapy.Field()
+    product_availability = scrapy.Field()
+    product_sku = scrapy.Field()

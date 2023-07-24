@@ -68,7 +68,7 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "frikibot.pipelines.ExportToMySQLPipeline": 300,
+    #"frikibot.pipelines.ExportToMySQLPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -97,9 +97,24 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
+# AWS
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_S3_URI = os.environ.get("AWS_S3_URI")
+
+FEEDS = {
+    AWS_S3_URI: {
+        "format": "jsonlines"
+    }
+}
+
+
 # MySQL
 MYSQL_DATABASE_HOST = os.environ['MYSQL_DATABASE_HOST']
 MYSQL_USER = os.environ['MYSQL_USER']
 MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
 MYSQL_DATABASE = os.environ['MYSQL_DATABASE']
 MYSQL_TABLE = os.environ['MYSQL_TABLE']
+
+
+

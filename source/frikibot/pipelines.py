@@ -9,6 +9,7 @@ import mysql.connector
 from scrapy.exceptions import DropItem
 
 
+# MySQL
 class ExportToMySQLPipeline:
     def __init__(self, host, user, password, database):
         self.host = host

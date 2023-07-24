@@ -8,6 +8,7 @@ class MovieplaySpider(scrapy.Spider):
     name = "movieplay"
     allowed_domains = ["movieplay.cl"]
     start_url = "https://movieplay.cl/123-familiares.html"
+    date = pendulum.today(tz="UTC").date()
 
     def start_requests(self):
         yield scrapy.Request(self.start_url, callback=self.discover_product_urls)
@@ -27,8 +28,9 @@ class MovieplaySpider(scrapy.Spider):
             if response.url == self.start_url:
                 next_page = "https://movieplay.cl/123-familiares.html?page=2"
             else:
-                next_num = str(int(response.url[-1]) + 1)
-                next_page = response.url[:-1] + next_num
+                url_array = response.url.split("=")
+                next_num = str(int(url_array[1]) + 1)
+                next_page = f"{url_array[0]}={next_num}"
             meta = {
                 "dont_redirect": True,
                 "handle_httpstatus_list": [302]
@@ -43,5 +45,6 @@ class MovieplaySpider(scrapy.Spider):
         loader.add_value("scraped_at", response.meta["scraping_started_at"])
         loader.add_xpath("product_availability", "//span[@id='product-availability']/text()[2]")
         loader.add_xpath("product_sku", "//span[@itemprop='sku']/text()")
+        loader.add_value("store_name", self.name.title())
 
         return loader.load_item()

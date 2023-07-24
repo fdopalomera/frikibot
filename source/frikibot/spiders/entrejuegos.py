@@ -7,6 +7,7 @@ from frikibot.itemsloaders import BoardGameLoader
 class EntreJuegosSpider(scrapy.Spider):
     name = "entrejuegos"
     allowed_domains = ["entrejuegos.cl"]
+    date = pendulum.today(tz="UTC").date()
 
     def start_requests(self):
         start_url = "https://www.entrejuegos.cl/1064-juegos-de-mesa"
@@ -34,6 +35,7 @@ class EntreJuegosSpider(scrapy.Spider):
         loader.add_value("product_url", response.url)
         loader.add_value("scraped_at", response.meta["scraping_started_at"])
         loader.add_xpath("product_reference", "//div[@class='product-reference']/span/text()")
+        loader.add_value("store_name", self.name.title())
 
         qty_xpath = "//div[@class='product-quantities']/span/@data-stock"
         if not response.xpath(qty_xpath):
